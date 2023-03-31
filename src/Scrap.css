@@ -1,0 +1,83 @@
+.resizable-code {
+    /* resize: both; */
+    overflow: auto;
+    height: 200px;
+    position: relative;
+    left: 20px;
+    width: 95%;
+    border-radius: 10px;
+}
+
+.metax {
+    overflow: auto;
+    height: 200px;
+    position: relative;
+    left: 20px;
+    width: 93.5%;
+    border-radius: 10px;
+}
+
+.allteks{
+    font-family: Lato;
+    font-weight: bold;
+    color: #b1a79c;
+}
+
+#copyhtml{
+    display: none;
+    color: #28343c;
+}
+
+#copyhtml:hover{
+    color: black;
+}
+
+#copyhead{
+    display: none;
+    color: #28343c;
+}
+
+#copyhead:hover{
+    color: black;
+    transition: 0.5s;
+}
+
+#copymeta{
+    display: none;
+    color: #28343c;
+}
+
+#copymeta:hover{
+    color: black;
+    transition: 0.5s;
+}
+
+#copylink{
+    display: none;
+    color: #28343c;
+}
+
+#copylink:hover{
+    color: black;
+    transition: 0.5s;
+}
+
+#copybody{
+    display: none;
+    color: #28343c;
+}
+
+#copybody:hover{
+    color: black;
+    transition: 0.5s;
+}
+
+#copyscript{
+    display: none;
+    color: #28343c;
+}
+
+#copyscript:hover{
+    color: black;
+    transition: 0.5s;
+}

@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/tokyo-night-dark.min.css"></link>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+
+	<style>
+		html,
+		body,
+		#diagram {
+			height: 100%;
+			width: 100%;
+			margin: 0;
+			user-select: none;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			font-size: 16px;
+			color: rgb(255, 255, 255);
+			outline: none; 
+		}
+
+		a {
+			color: #0d6efd;
+			text-decoration: none;
+		}
+
+		/* width */
+		::-webkit-scrollbar {
+			width: 20px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track { 
+			box-shadow: inset 0 0 5px rgb(210, 209, 216);
+			border-radius: 10px;
+		}
+		
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+		background: rgb(210, 209, 216); 
+		border-radius: 10px;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+		background: rgb(210, 209, 216); 
+		}
+
+		@media only screen and (max-width: 700px) {
+			.links {
+				display: none;
+			}	
+		}
+	</style>
+	<title>Diagram Builder</title>
+	<script>
+		function jsondatax() {
+			const jsonData = localStorage.getItem("myData");
+			const data = JSON.parse(jsonData);
+			const formatData = JSON.stringify(data, null, 2);
+			
+			document.getElementById('jsondata').textContent	= formatData;
+			hljs.highlightElement(document.getElementById('jsondata'));
+		};
+
+		function removejson() {
+			localStorage.removeItem('myData');
+			document.getElementById("lapis1").style.display = "none";
+		}
+
+		window.onbeforeunload = function() {
+			localStorage.removeItem("myData");
+		}
+
+		function copyjson() {
+			const jsonData = document.getElementById('jsondata').textContent;
+  
+			// Create a new textarea element and set its value to the JSON data
+			const textarea = document.createElement('textarea');
+			textarea.value = jsonData;
+			
+			// Append the textarea element to the body of the HTML document
+			document.body.appendChild(textarea);
+			
+			// Select the text in the textarea element and execute the copy command
+			textarea.select();
+			document.execCommand('copy');
+			
+			// Remove the textarea element
+			document.body.removeChild(textarea);
+
+			document.getElementById("notifsuccess").style.display = "inline-block";
+			setTimeout(function() {
+				document.getElementById("notifsuccess").style.display = "none";
+			}, 2000);
+		}
+
+		function copyreadme() {
+			const jsonData = document.getElementById('readdata').textContent;
+  
+			// Create a new textarea element and set its value to the JSON data
+			const textarea = document.createElement('textarea');
+			textarea.value = jsonData;
+			
+			// Append the textarea element to the body of the HTML document
+			document.body.appendChild(textarea);
+			
+			// Select the text in the textarea element and execute the copy command
+			textarea.select();
+			document.execCommand('copy');
+			
+			// Remove the textarea element
+			document.body.removeChild(textarea);
+
+			document.getElementById("notifsuccess").style.display = "inline-block";
+			setTimeout(function() {
+				document.getElementById("notifsuccess").style.display = "none";
+			}, 2000);
+		}
+
+	</script>
+</head>
+<body>
+	<ap-menu id="menu"></ap-menu>
+	<ap-menu-shape id="menu-shape"></ap-menu-shape>
+	<div id="tip" style="position: fixed; color: #0d6efd; left: 50%; top: 30%; transform: translate(-50%, -30%); min-width: 290px; background: #fff; border-radius: 10px; padding: 10px;">
+		<a id="back" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 73.4-73.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-128 128z" fill="rgb(52,71,103)"/></svg></a>
+		<div style="margin-left: 10px;">
+			<svg viewBox="0 0 24 24" width="24" height="24">
+				<path fill="none" d="M0 0h24v24H0z" />
+				<path
+					d="M10 3h4a8 8 0 1 1 0 16v3.5c-5-2-12-5-12-11.5a8 8 0 0 1 8-8zm2 14h2a6 6 0 1 0 0-12h-4a6 6 0 0 0-6 6c0 3.61 2.462 5.966 8 8.48V17z"
+					fill="rgb(230,126,34)" />
+			</svg>Tips
+		</div>
+		<ul>
+			<li style="color: #0D1117;">drag diagram image here to open</li>
+			<li style="color: #0D1117;">to select multiple shapes use long press</li>
+			<li style="color: #0D1117;">double click dropped shapes for more tools</li>
+			<br />
+			<div style="position: relative; left: -20px; color: #0D1117; font-weight: bold;">Download Template Diagram</div>
+			<li><a href='ui/template/flowchart.png' download>Template Flowchart</a></li>
+			<li><a href='ui/template/activitydiagram.png' download>Template Activity Diagram</a></li>
+			<li><a href='ui/template/sequencediagram.png' download>Template Sequence Diagram</a></li>
+		</ul>
+	</div>
+	<div id="lapis1" class="lapis2" style="background: none; display: none; position: fixed; overflow-y: auto; left: 50%; top: 30%; transform: translate(-50%, -30%); min-width: 290px; height: 100%; width: 100%;">
+		<div style="position: fixed; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); background: none; overflow-y: auto; height: 100%; width: 100%; left: 50%; top: 30%; transform: translate(-50%, -30%); min-width: 290px;">
+			<div id="notifsuccess" class="alert alert-success" role="alert" style="position: fixed; width: 100%; padding-left: 5%; display: none;">
+				<i class="fa-solid fa-check"></i> Code copied to clipboard!
+			</div>
+			<div style="position: fixed; border-radius: 20px; overflow-y: auto; height: 50%; width: 30%; left: 65%; top: 30%; transform: translate(-50%, -30%); min-width: 290px;">
+				<a onclick="removejson()" style="cursor: pointer; position: fixed; right: 0; margin-right: 20px; margin-top: 10px;"><i class="fa-solid fa-xmark fa-fade" style="color: #dee2e8;"></i></a>
+				<a onclick="copyjson()" id="copy-btn" style="cursor: pointer; position: fixed; right: 0; margin-right: 45px; margin-top: 10px; color: #dee2e8;"><i class="fa-regular fa-clipboard" style="color: #dee2e8;"></i> Copy Code</a>
+				<pre id="jsondata" class="tokyo-night-dark" style="padding: 20px; margin: 0; border-radius: 20px; overflow-y: auto;"></pre>
+				<button id="buttonjson" onclick="jsondatax()" style="position: fixed; top: 10px; display: none;">Test</button>
+			</div>
+		</div>
+		<div style="position: absolute; background: #1A1B26; border-radius: 20px; overflow-y: auto; height: 50%; width: 35%; left: 30%; top: 30%; transform: translate(-50%, -30%); min-width: 290px;">
+			<a onclick="copyreadme()" id="copy-btn2" style="cursor: pointer; position: fixed; right: 0; margin-right: 45px; margin-top: 10px; color: #dee2e8;"><i class="fa-regular fa-clipboard" style="color: #dee2e8;"></i> Copy Code</a>
+			<pre id="readdata" style="color: #bbc6d8; background: #1A1B26; padding: 20px; margin: 0; font-size: 12.5px;">
+<h1>README</h1>
+{
+
+ Flow Shape
+ Type 0 : Garis
+ Type 1 : Shape Bulat/Circle
+ Type 2 : Shape Persegi Panjang
+ Type 3 : Teks
+ Type 4 : Shape Ketupat
+ Title : Teks pada shape
+
+ s = id
+ id start from 0
+				
+ Flow Garis
+ c : [tipe garis] {
+	 arw-e : garis lurus 1 Arrow
+	 arw-s : garis lurus 2 Arrow
+	 dash : garis putus-putus
+ }
+				
+ e : target arrow{
+	 k : arrow ke target bagian "right", "left", "bottom", "top",
+	 s : id dari target
+ }
+				
+ s : start line{
+	 k : line start from "right", "left", "bottom", "top",
+	 s : id dari start shape
+ }
+
+}
+			</pre>
+		</div>
+	</div>
+	<svg id="diagram" tabindex="0" style="touch-action: none; background-color: #0D1117; display:block; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; pointer-events: none;">
+		<style type="text/css">
+			text {
+				white-space: pre-wrap;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				font-size: 16px;
+				color: rgb(73, 80, 87);
+			}
+
+			textarea {
+				text-align: center;
+				border: none;;
+				padding: 10px;
+				padding-top: 0.8em;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				font-size: 16px;
+				background-color: transparent;
+				color: transparent;
+				outline: none;
+				overflow: hidden;
+				resize: none;
+				line-height: 1em;
+				caret-color: #fff;
+			}	
+
+			[data-connect] { display: none; }
+
+			.select path[data-key="selected"],
+			.select .path-end,
+			.select [data-connect],
+			.highlight-e [data-key="end"] .path-end,
+			.highlight-s [data-key="start"] .path-end,
+			.hover [data-connect] {
+				display: unset;
+				opacity: 0.51;
+				stroke: rgb(108 187 247);
+				fill: rgb(108 187 247);
+			}
+			[data-connect].hover { stroke-width: 25px; }
+
+			.select path[data-key="selected"] { fill:none; }
+
+			.highlight [data-key="main"]{
+				paint-order: stroke;
+				stroke-width: 10px;
+				stroke: rgb(108 187 247 / 51%);
+			}
+			
+			.shpath [data-key="end"] .path,
+			.shpath [data-key="start"] .path { display: none;}
+			.shpath.arw-e [data-key="end"] .path,
+			.shpath.arw-s [data-key="start"] .path { display: unset;}
+			.shpath.dash [data-key="path"] { stroke-dasharray:5; }
+
+			@media (pointer: coarse) {
+				circle.path-end { r: 20px; }
+				.ative-elem {
+					stroke: rgb(108 187 247 / 51%);
+					stroke-width: 70px;
+				}
+	
+				[data-connect] { stroke-width: 15px; }
+				[data-connect].hover { stroke-width: 70px; }
+			}
+
+
+			/* rect, text shape */
+			.shrect.ta-1 text, .shtxt.ta-1 text { text-anchor: start; }
+			.shrect.ta-2 text, .shtxt.ta-2 text { text-anchor: middle; }
+			.shrect.ta-3 text, .shtxt.ta-3 text { text-anchor: end; }
+			.shrect.ta-1 textarea, .shtxt.ta-1 textarea { text-align: left; }
+			.shrect.ta-2 textarea, .shtxt.ta-2 textarea { text-align: center; }
+			.shrect.ta-3 textarea, .shtxt.ta-3 textarea { text-align: right; }
+			.shtxt textarea { caret-color: rgb(255, 255, 255); }
+			.shtxt text { fill:rgb(255, 255, 255); }
+			.shtxt [data-key="main"] { fill: transparent; stroke: transparent; }
+			.shtxt.select [data-key="main"], .shtxt.highlight [data-key="main"] { stroke: rgb(108 187 247 / 51%); stroke-width: 2px; }
+
+			/* rhomb shape */
+			.shrhomb.highlight [data-key="border"] { stroke-width: 28px; stroke: rgb(108 187 247 / 51%); }
+			.shrhomb.highlight [data-key="main"] { stroke-width:18px; stroke:#1D809F; }
+
+			/* shape settings styles */
+			.cl-red [data-key="main"] { fill: #E74C3C; } .cl-red .path { stroke: #E74C3C;}
+			.cl-orange [data-key="main"] { fill: #ff6600;} .cl-orange .path { stroke: #ff6600;}
+			.cl-green [data-key="main"] { fill: #19bc9b;} .cl-green .path { stroke: #19bc9b;}
+			.cl-blue [data-key="main"] { fill: #1aaee5;} .cl-blue .path { stroke: #1aaee5;}
+			.cl-dblue [data-key="main"] { fill: #1D809F;} .cl-dblue .path { stroke: #1D809F;}
+			.cl-dgray [data-key="main"] { fill: #e1dfdf;} .cl-dgray .path { stroke: #e1dfdf;}
+
+			.shtxt.cl-red [data-key="main"] { fill: transparent; } .shtxt.cl-red text { fill: #E74C3C; }
+			.shtxt.cl-orange [data-key="main"] { fill: transparent; } .shtxt.cl-orange text { fill: #ff6600; }
+			.shtxt.cl-green [data-key="main"] { fill: transparent; } .shtxt.cl-green text { fill: #19bc9b; }
+			.shtxt.cl-blue [data-key="main"] { fill: transparent; } .shtxt.cl-blue text { fill: #1aaee5; }
+			.shtxt.cl-dblue [data-key="main"] { fill: transparent; } .shtxt.cl-dblue text { fill: #1D809F; }
+			.shtxt.cl-dgray [data-key="main"] { fill: transparent; } .shtxt.cl-dgray text { fill: #e1dfdf; }
+
+			.shrhomb.cl-red [data-key="main"] { stroke-width:18px; stroke:#E74C3C; }
+			.shrhomb.cl-orange [data-key="main"] { stroke-width:18px; stroke:#ff6600; }
+			.shrhomb.cl-green [data-key="main"] { stroke-width:18px; stroke:#19bc9b; }
+			.shrhomb.cl-blue [data-key="main"] { stroke-width:18px; stroke:#1aaee5; }
+			.shrhomb.cl-dblue [data-key="main"] { stroke-width:18px; stroke:#1D809F; }
+			.shrhomb.cl-dgray [data-key="main"] { stroke-width:18px; stroke:#e1dfdf; }
+		</style>
+		<g id="canvas"></g>
+	</svg>
+	<script src="index.js" type="module"></script>
+</body>
+</html>

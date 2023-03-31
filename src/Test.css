@@ -1,0 +1,59 @@
+.flowchart-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 1000px; /* or any other width you want */
+    margin-top: 20px;
+  }
+  
+  .flowchart-box {
+    width: 200px;
+    height: 80px;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .flowchart-line {
+    position: absolute;
+  }
+  
+  .flowchart-line path {
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+  }
+  
+  #box1 {
+    top: 40px;
+  }
+  
+  #box2 {
+    top: 120px;
+  }
+  
+  #box3 {
+    top: 200px;
+  }
+  
+  #box4 {
+    top: 280px;
+  }
+  
+  .flowchart-line:nth-child(1) {
+    left: 100px;
+    top: 100px;
+  }
+  
+  .flowchart-line:nth-child(2) {
+    left: 100px;
+    top: 220px;
+  }
+  
+  .flowchart-line:nth-child(3) {
+    left: 250px;
+    top: 140px;
+  }
+  
